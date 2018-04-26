@@ -23,8 +23,30 @@
 
 <form method="get" action="/customer">
   <div class="btn-group btn-group-justified">
-  	<a href="#" class="btn btn-default">Regional Managers</a>
-    <a href="#" class="btn btn-default">Managers</a>
-    <a href="#" class="btn btn-default">Employee</a>
+    <a href="/customer/getEmployees" class="btn btn-default">Employees</a>
+    <a href="/customer/getManagers" class="btn btn-default">Managers</a>
+    <a href="/customer/getRegionalManagers" class="btn btn-default">Regional Managers</a>
   </div>
 </form>
+
+<p></p>
+{{#if users}}
+  <div>
+      <table class="table table-bordered">
+        <thead>
+            <th>Username</th> 
+            <th>Locations</th> 
+            <th>Status</th> 
+        </thead> 
+        <tbody> 
+            {{#each users}} 
+            <tr> 
+                <td>{{username}}</td>
+                <td>{{locations}}</td>
+                <td>{{status}}</td>
+            </tr> 
+            {{/each}} 
+        </tbody> 
+    </table>
+</div>
+{{/if}}

@@ -36,8 +36,6 @@ router.post('/addUser', Admin.ensureAuthenticated, function(req, res){
 	var role = req.body.role;
 	var locations = req.body.locations;
 
-	console.log(role);
-
 	// Validation
 	req.checkBody('username', 'Username is required').notEmpty();
 	req.checkBody('password', 'Password is required').notEmpty();
@@ -53,8 +51,7 @@ router.post('/addUser', Admin.ensureAuthenticated, function(req, res){
 			username: username,
 			password: password,
 			role: role,
-			locations: locations/*,
-			status: true*/
+			locations: locations	//status is set to true by default at the db level
 		});
 
 		User.createUser(newUser, function(err,result){
@@ -66,9 +63,38 @@ router.post('/addUser', Admin.ensureAuthenticated, function(req, res){
 	}	
 });
 
-//Cancel User - Add new user for particular customer
+//Cancel User - Add new user for particular customer - Cancel and return
 router.post('/cancelUser', Admin.ensureAuthenticated, function(req, res){
 	res.render('manageUsers.handlebars');
+});
+
+
+
+//Get all 'employee' role users from database
+router.get('/getEmployees', Admin.ensureAuthenticated, function(req, res){
+	User.getUserByRole('employee', function (err, results){	//results = managers
+		if(err) throw err;
+		else
+			res.render('manageUsers.handlebars', {users: results});
+	});
+});
+
+//Get all 'manager' role users from database
+router.get('/getManagers', Admin.ensureAuthenticated, function(req, res){
+	User.getUserByRole('manager', function (err, results){	//results = managers
+		if(err) throw err;
+		else
+			res.render('manageUsers.handlebars', {users: results});
+	});
+});
+
+//Get all 'regionalManager' role users from database
+router.get('/getRegionalManagers', Admin.ensureAuthenticated, function(req, res){
+	User.getUserByRole('regionalManager', function (err, results){	//results = managers
+		if(err) throw err;
+		else
+			res.render('manageUsers.handlebars', {users: results});
+	});
 });
 
 module.exports = router;
