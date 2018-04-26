@@ -18,23 +18,32 @@
 
 <form method="post" action="/customer/addUser">
 
-<div class="form-group">
-  <label>Username</label>
+<div class="form-group required">
+  <label class="control-label">Username</label>
   <input type="text" class="form-control" name="username" placeholder="Username"/>
 </div>
 
-<div class="form-group">
-  <label>Password</label>
+<div class="form-group required">
+  <label class="control-label">Password</label>
   <input type="text" class="form-control" name="password" placeholder="Password"/>
 </div>
 
-<div class="form-group">
-  <label>Role</label>
-  <select class="form-control">
+<div class="form-group required" name="role">
+  <label class="control-label">Role</label>
+  <select class="form-control" name="role">
       <option value="" disabled selected>Select Role</option>
       <option value="employee">Employee</option>
       <option value="manager">Manager</option>
       <option value="regionalManager">Regional Manager</option>      
+  </select>
+</div>
+
+<div class="form-group required">
+  <label class="control-label">Locations</label>
+  <select class="form-control" name="locations" multiple="multiple">
+      <option value="locn1">Locn 1</option>
+      <option value="locn2">Locn 2</option>
+      <option value="locn3">Locn 3</option>      
   </select>
 </div>
 

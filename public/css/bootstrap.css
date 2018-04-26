@@ -2706,6 +2706,10 @@ fieldset[disabled] .checkbox label {
   padding-right: 0;
   padding-left: 0;
 }
+.form-group.required .control-label:after {   /*Added*/
+  content:"*";
+  color:black;
+}
 .input-sm {
   height: 30px;
   padding: 5px 10px;
