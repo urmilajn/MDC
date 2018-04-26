@@ -7,14 +7,7 @@ const expressValidator = require('express-validator');
 const flash = require('connect-flash');
 const session = require('express-session');
 const passport = require('passport');
-//const config = require('./config/database');
 const httpPort = 9000;
-
-/*//DB related
-const mongo = require('mongodb');
-const mongoose = require('mongoose');
-mongoose.connect(config.database);    //getting url from config/database.js instead of connecting directly
-const db = mongoose.connection;*/
 
 //Controllers
 const login = require('./routes/login.js');  //validate admin

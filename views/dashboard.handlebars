@@ -1,34 +1,34 @@
 {{#if errors}}
-      {{#each errors}}
-          <div class="alert alert-danger">{{msg}}</div>
-      {{/each}}
-  {{/if}}
+    {{#each errors}}
+        <div class="alert alert-danger">{{msg}}</div>
+    {{/each}}
+{{/if}}
 
-  <form method="post" action="/dashboard">
+<div class="header clearfix">
+<nav>
+  <ul class="nav nav-pills pull-right">
+    <form method="get" action="/dashboard/addCustomer">
+      <button type="submit" class="btn btn-default">Add Customer</button>
+    </form>
+  </ul>
+</nav>
 
-      <div class="input-group">
-          <input type="text" class="form-control" name="customerName" placeholder="Customer Name"/>
-          <span class="input-group-btn">
-              <button type="submit" class="btn btn-default">Add new Customer</button>
-          </span>
-      </div>
-
-  </form> <br/>
-
-  {{#if customers}}
-  <h4 class="text-muted">Customers</h4>
+{{#if customers}}
+<h4 class="text-muted">Customers</h4>
   <div>
       <table class="table table-bordered">
         <thead>
-            <th>Name</th> 
+            <th>Name</th>
+            <th>Locations</th>
         </thead> 
         <tbody> 
             {{#each customers}} 
             <tr> 
-                <td><a href="/customer">{{customerName}}</a></td> 
+                <td><a href="/customer">{{customerName}}</a></td>
+                <td><a href="/customer">{{locations}}</a></td>
             </tr> 
             {{/each}} 
         </tbody> 
     </table>
-</div>
+  </div>
 {{/if}}

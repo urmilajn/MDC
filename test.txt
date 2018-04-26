@@ -1,0 +1,7 @@
+db.createCollection("test",{
+	validator: {$jsonSchema: {
+		bsonType: "object",
+		required: [""]
+	}
+	}
+})

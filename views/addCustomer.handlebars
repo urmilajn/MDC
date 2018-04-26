@@ -1,0 +1,22 @@
+{{#if errors}}
+  {{#each errors}}
+    <div class="alert alert-danger">{{msg}}</div>
+  {{/each}}
+{{/if}}
+
+<form method="post" action="/dashboard/addCustomer">
+
+  <div class="form-group required">
+    <label class="control-label">Customer Name</label>
+    <input type="text" class="form-control" name="customerName" placeholder="Customer Name"/>
+  </div>
+
+  <div class="form-group required">
+    <label class="control-label">Locations</label>
+    <input type="text" class="form-control" name="locations" placeholder="Comma-separated Locations. Ex: Montreal,Toronto,Boston "/>
+  </div>
+
+  <button type="submit" class="btn btn-default">Add</button>
+  <button type="submit" class="btn btn-default" formaction="/dashboard/cancelCustomer">Cancel</button>
+
+</form>

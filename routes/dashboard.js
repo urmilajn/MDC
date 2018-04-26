@@ -4,6 +4,7 @@ const router = express.Router();
 const Admin = require('../models/admin');
 const Customer = require('../models/customer');
 
+/** DASHBOARD *****************************************************************************************************************************************/
 
 //Get customer details from "customers" collection
 router.get('/', Admin.ensureAuthenticated, function(req, res){
@@ -15,45 +16,60 @@ router.get('/', Admin.ensureAuthenticated, function(req, res){
 	});	
 });
 
+/** ADD CUSTOMER **************************************************************************************************************************************/
 
-//Add new customer
-router.post('/', Admin.ensureAuthenticated, function(req, res){
+//Add new customer - Get
+router.get('/addCustomer', Admin.ensureAuthenticated, function(req, res){
+	res.render('addCustomer.handlebars');
+});
+
+//Add new customer - Process & Reply
+router.post('/addCustomer', Admin.ensureAuthenticated, function(req, res){
 	
-	//Get customer name
+	//Get customer name and locations
 	var customerName = req.body.customerName;
+	var locations = (req.body.locations).split(',').map(function(item){		//Ex: "Boston, Montreal" --> ["Boston","Montreal"]
+		return item.trim();
+	});
 
-	//Check if it not empty
-	req.checkBody('customerName', 'Enter customer name').notEmpty();
+	//Check if not empty
+	req.checkBody('customerName', 'Customer name is required').notEmpty();
+	req.checkBody('locations', 'Enter at least one location').notEmpty();
 	var errors = req.validationErrors();
 
 	if(errors)
-		res.render('dashboard.handlebars', {errors: errors});		//if there are validation errors, display dashboard with errors, ensure to check this in the handlebar	
+		res.render('addCustomer.handlebars', {errors: errors});		//if there are validation errors, display dashboard with errors, ensure to check this in the handlebar	
 
-	else {		//if no errors, create new customer object
+	else {		//if no validation errors, check if customer already exists, else create one
 
 		//create new customer object (schema as defined in model)
 		var newCustomer = new Customer({
-			customerName: customerName
+			customerName: customerName,
+			locations: locations
 		});
-
 
 		Customer.createCustomer(newCustomer, function(err, customer){	//err, customer are retured data
 			if(err) throw err;		//db error
 		})
 
 		req.flash('success_msg', 'Customer created');
-
 		res.redirect('/dashboard');		//refresh dashboard
 	}
 });	//Added new customer
 
+//Add new customer - Cancel
+router.post('/cancelCustomer', Admin.ensureAuthenticated, function(req, res){
+	res.redirect('/dashboard');
+});
 
-//Change Password
+/** CHANGE ADMIN PASSWORD *****************************************************************************************************************************/
+
+//Change Password - Get
 router.get('/changePassword', Admin.ensureAuthenticated, function(req, res){
   res.render('changePassword.handlebars');
 });
 
-//Change Password
+//Change Password - Process & Reply
 router.post('/changePassword', Admin.ensureAuthenticated, function(req, res){
 	
 	//Get new password details
@@ -83,11 +99,15 @@ router.post('/cancelPassword', Admin.ensureAuthenticated, function(req, res){
 	res.redirect('/dashboard');
 });
 
+/** LOGOUT ********************************************************************************************************************************************/
+
 //Logout
 router.get('/logout', function(req, res){
   req.logout();
   req.flash('success_msg', 'You are logged out');
   res.redirect('/login');
 });
+
+/****************************************************************************************************************************************************/
 
 module.exports = router;

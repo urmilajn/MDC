@@ -8,10 +8,11 @@ const db = mongoose.connection;
 
 //Admin Schema
 var AdminUserSchema = mongoose.Schema({
-	username: {
+	username: {					//same concept as user, but resides in "admins" collection
 		type: String,
 		required: true,
-		index: {unique: true}
+		unique: true,
+		index: true
 	},
 	password: {
 		type: String,

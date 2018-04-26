@@ -2,11 +2,15 @@ const mongoose = require('mongoose');
 
 //Customer Schema
 var CustomerSchema = mongoose.Schema({
-	customerName: {
+	customerName: {			//unique across entire idm system
 		type: String,
 		required: true,
 		unique: true,
 		index: true
+	},
+	locations: {			//admin must provide the list of locations for a given customer
+		type: [String],
+		required: true
 	}
 });
 
@@ -22,11 +26,7 @@ module.exports.getAllCustomers = function(dbResult){
 	Customer.find({}).exec(dbResult);
 }
 
-/*module.exports.getCustomerByName = function(customerName, callback){
+module.exports.getCustomerByName = function(customerName, callback){
 	var query = {customerName: customerName};
 	Customer.findOne(query, callback);
 }
-
-module.exports.getCustomerById = function(id, callback){
-	Customer.findById(id, callback);
-}*/

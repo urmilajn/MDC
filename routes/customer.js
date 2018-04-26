@@ -5,30 +5,31 @@ const Admin = require('../models/admin');
 const Customer = require('../models/customer');
 const User = require('../models/user');
 
+/** FOR EACH CUSTOMER: CUSTOMER PAGE ****************************************************************************************************************/
+
 //View particular customer
 router.get('/', Admin.ensureAuthenticated, function(req, res){
 	res.render('customer.handlebars');
 });
-
 
 //Manage Forms - Form Management for particular customer
 router.get('/manageForms', Admin.ensureAuthenticated, function(req, res){
 	res.render('manageForms.handlebars');
 });
 
-
 //Manage Users - User Management for particular customer
 router.get('/manageUsers', Admin.ensureAuthenticated, function(req, res){
 	res.render('manageUsers.handlebars');
 });
 
+/** ADD USER ****************************************************************************************************************************************/
 
-//Add User - Add new user for particular customer
+//Add User - Get
 router.get('/addUser', Admin.ensureAuthenticated, function(req, res){
 	res.render('addUser.handlebars');
 });
 
-//Add User - Add new user for particular customer
+//Add User - Process & Reply
 router.post('/addUser', Admin.ensureAuthenticated, function(req, res){
 	
 	var username = req.body.username;
@@ -63,12 +64,12 @@ router.post('/addUser', Admin.ensureAuthenticated, function(req, res){
 	}	
 });
 
-//Cancel User - Add new user for particular customer - Cancel and return
+//Add user - Cancel
 router.post('/cancelUser', Admin.ensureAuthenticated, function(req, res){
 	res.render('manageUsers.handlebars');
 });
 
-
+/** GET USERS **************************************************************************************************************************************/
 
 //Get all 'employee' role users from database
 router.get('/getEmployees', Admin.ensureAuthenticated, function(req, res){
@@ -96,5 +97,7 @@ router.get('/getRegionalManagers', Admin.ensureAuthenticated, function(req, res)
 			res.render('manageUsers.handlebars', {users: results});
 	});
 });
+
+/****************************************************************************************************************************************************/
 
 module.exports = router;
