@@ -51,6 +51,7 @@ router.post('/addUser', Admin.ensureAuthenticated, function(req, res){
 		var newUser = new User({
 			username: username,
 			password: password,
+			customerName: 'Hyatt',
 			role: role,
 			locations: locations	//status is set to true by default at the db level
 		});
