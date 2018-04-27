@@ -30,3 +30,7 @@ module.exports.getCustomerByName = function(customerName, callback){
 	var query = {customerName: customerName};
 	Customer.findOne(query, callback);
 }
+
+module.exports.test = function(dbResult){
+	Customer.find({}).exec(dbResult);
+}

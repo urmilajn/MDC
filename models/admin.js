@@ -50,7 +50,6 @@ module.exports.comparePassword = function(candidatePassword, hash, callback){
 	});
 }
 
-//separate getting hash and updating, check how to update exactly in mongoose
 module.exports.changePassword = function(req, callback){
 	bcrypt.genSalt(10, function(err, salt) {
 	    bcrypt.hash(req.body.newPassword, salt, function(err, hash) {

@@ -12,7 +12,8 @@ const httpPort = 9000;
 //Controllers
 const login = require('./routes/login.js');  //validate admin
 const dashboard = require('./routes/dashboard.js');  //Get all customers
-const customer = require('./routes/customer.js');  //Get all customers
+const customer = require('./routes/customer.js');
+const forms = require('./routes/forms.js');
 
 //Initial app 
 const app = express();
@@ -82,9 +83,13 @@ app.post('*', function (req, res, next) {   //set these variables for each incom
 });
 
 app.use('/', login);                //on GET / go to ./routes/login.js which will take you to views/login.handlebars
-app.use('/login', login);           //even on GET /login it should behave as aboveS
+app.use('/login', login);           //even on GET /login it should behave as above
 app.use('/dashboard', dashboard);   //on GET /dashboard go to ./routes/dashboard.js which will take you to views/dashboard.handlebars
-app.use('/customer', customer);   //on GET /dashboard go to ./routes/dashboard.js which will take you to views/dashboard.handlebars
+app.use('/customer', customer);     //on GET /customer go to ./routes/customer.js
+app.use('/createNewForm', forms);
+app.use('/getFieldsOfNewForm', forms);
+const test = require('./routes/test.js');
+app.use('/test', test);
 
 //Set Port
 app.set('port', process.env.PORT || httpPort);

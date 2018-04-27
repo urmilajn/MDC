@@ -18,7 +18,7 @@ var UserSchema = mongoose.Schema({
 		type: String,
 		required: true
 	},
-	customerName: {					//lookup from customers
+	customerName: {				//lookup from customers
 		type: String,
 		required: true
 	},
