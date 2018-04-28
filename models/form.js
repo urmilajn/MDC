@@ -1,9 +1,3 @@
-/*const config = require('../config/database');
-const mongo = require('mongodb');
-const mongoose = require('mongoose');
-mongoose.connect(config.database);
-const db = mongoose.connection;*/
-
 const mongoose = require('mongoose');
 
 var FormSchema = mongoose.Schema({

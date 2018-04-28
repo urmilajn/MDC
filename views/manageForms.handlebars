@@ -13,7 +13,7 @@
     </form>
   </ul>
 </nav>
-<h4 class="text-muted">{{customerName}}</h4>
+<h4>{{customerName}}</h4>
 </div>
 
 <html ng-app="ngDynamicForms"> 
@@ -23,6 +23,10 @@
 	src='/js/ngDynamicForms.js'>
 </script>
 <body ng-controller="FormBuilderCtrl" style="padding-top:30px;" >
-<div ng-dynamic-form />
+<div id="customerName" ng-hidden="true" name={{customerName}}> </div>
+<div ng-dynamic-form >
+
+</div>
+
 </body>
 </html>

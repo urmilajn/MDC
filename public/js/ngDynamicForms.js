@@ -10,6 +10,8 @@ app.controller('FormBuilderCtrl',function FormBuilderCtrl($scope,  $http)
 		//$scope.newFormName = formName;
 
 	}
+	$scope.customerName={}
+	$scope.customerName1={}
 	$scope.editing = false;
 	$scope.tokenize = function(slug1, slug2) {
 		var result = slug1;
@@ -53,10 +55,6 @@ app.controller('FormBuilderCtrl',function FormBuilderCtrl($scope,  $http)
 		$scope.newField = field;
 	};
 
-//harcoded for now. include get method in future
-	$scope.clientArray = [
-    "Client1","Client2"
-    ] 
 
 	$scope.splice = function(field, fields) {
 		fields.splice(fields.indexOf(field), 1);
@@ -92,7 +90,7 @@ app.controller('FormBuilderCtrl',function FormBuilderCtrl($scope,  $http)
 			
 			formName : $scope.newFormName.name,
 			fields : $scope.fields,
-			client :$scope.newClient.name
+			client : document.getElementById("customerName").getAttribute('name')
 		};
 		console.log(allFields)
 		var result = $http.post('/getFieldsOfNewForm', allFields,{ headers: {'Content-Type': 'application/json'} })
