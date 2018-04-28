@@ -87,7 +87,7 @@ router.get('/getEmployees', Admin.ensureAuthenticated, function(req, res){
 	User.getUserByRole('employee', function (err, results){	//results = managers
 		if(err) throw err;
 		else
-			res.render('manageUsers.handlebars', {users: results});
+			res.render('manageUsers.handlebars', {users: results, customerName: req.cookies.customerName});
 	});
 });
 
@@ -96,7 +96,7 @@ router.get('/getManagers', Admin.ensureAuthenticated, function(req, res){
 	User.getUserByRole('manager', function (err, results){	//results = managers
 		if(err) throw err;
 		else
-			res.render('manageUsers.handlebars', {users: results});
+			res.render('manageUsers.handlebars', {users: results, customerName: req.cookies.customerName});
 	});
 });
 
@@ -105,7 +105,7 @@ router.get('/getRegionalManagers', Admin.ensureAuthenticated, function(req, res)
 	User.getUserByRole('regionalManager', function (err, results){	//results = managers
 		if(err) throw err;
 		else
-			res.render('manageUsers.handlebars', {users: results});
+			res.render('manageUsers.handlebars', {users: results, customerName: req.cookies.customerName});
 	});
 });
 
