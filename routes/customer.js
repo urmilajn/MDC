@@ -4,7 +4,7 @@ const router = express.Router();
 const Admin = require('../models/admin');
 const Customer = require('../models/customer');
 const User = require('../models/user');
-
+const Form = require('../models/form');
 /** FOR EACH CUSTOMER: CUSTOMER PAGE ****************************************************************************************************************/
 
 //View particular customer
@@ -38,20 +38,6 @@ router.get('/addUser', Admin.ensureAuthenticated, function(req, res){
 			res.render('addUser.handlebars', {customerName: req.cookies.customerName, locations: result.locations});
 	});
 });
-
-
-router.get('/addForm', Admin.ensureAuthenticated, function(req, res){
-	console.log("inside /addForm")
-	Customer.getLocationsByCustomerId(req.cookies.customerId, function(err, result) {
-		if (err) throw err;
-		else
-			res.render('addForm.handlebars', {customerName: req.cookies.customerName, locations: result.locations});
-	});
-});
-
-
-
-
 
 
 //Add User - Process & Reply
@@ -125,5 +111,30 @@ router.get('/getRegionalManagers', Admin.ensureAuthenticated, function(req, res)
 });
 
 /****************************************************************************************************************************************************/
+/** ADD Form ****************************************************************************************************************************************/
+router.get('/addForm', Admin.ensureAuthenticated, function(req, res){
+	console.log("inside /addForm")
+	Customer.getLocationsByCustomerId(req.cookies.customerId, function(err, result) {
+		if (err) throw err;
+		else
+			res.render('addForm.handlebars', {customerName: req.cookies.customerName, locations: result.locations});
+	});
+});
+
+// Display added Forms
+router.get('/getForms', Admin.ensureAuthenticated, function(req, res){
+	Form.getAllFormsByCustomerName(req.cookies.customerName,function (err, results){	//results = managers
+		if(err) throw err;
+		else{
+			res.render('manageForms.handlebars', {forms: results , customerName: req.cookies.customerName});
+				console.log(results)
+				console.log(results[0].fields)
+								//console.log(results.fields.toString())
+
+
+		}
+	});
+});
+
 
 module.exports = router;
