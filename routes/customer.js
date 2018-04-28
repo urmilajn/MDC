@@ -8,25 +8,35 @@ const User = require('../models/user');
 /** FOR EACH CUSTOMER: CUSTOMER PAGE ****************************************************************************************************************/
 
 //View particular customer
-router.get('/', Admin.ensureAuthenticated, function(req, res){
-	res.render('customer.handlebars');
+router.post('/', Admin.ensureAuthenticated, function(req, res){
+
+	var customerId = req.body.customerId;
+	var customerName = req.body.customerName;
+
+	res.cookie('customerId', customerId);		//set or reset customer id and name based on customer selected by admin in dashboard
+	res.cookie('customerName', customerName);
+	res.render('customer.handlebars', {customerName: customerName});
 });
 
 //Manage Forms - Form Management for particular customer
 router.get('/manageForms', Admin.ensureAuthenticated, function(req, res){
-	res.render('manageForms.handlebars');
+	res.render('manageForms.handlebars', {customerName: req.cookies.customerName});
 });
 
 //Manage Users - User Management for particular customer
 router.get('/manageUsers', Admin.ensureAuthenticated, function(req, res){
-	res.render('manageUsers.handlebars');
+	res.render('manageUsers.handlebars', {customerName: req.cookies.customerName});
 });
 
 /** ADD USER ****************************************************************************************************************************************/
 
 //Add User - Get
 router.get('/addUser', Admin.ensureAuthenticated, function(req, res){
-	res.render('addUser.handlebars');
+	Customer.getLocationsByCustomerId(req.cookies.customerId, function(err, result) {
+		if (err) throw err;
+		else
+			res.render('addUser.handlebars', {customerName: req.cookies.customerName, locations: result.locations});
+	});
 });
 
 //Add User - Process & Reply
@@ -51,7 +61,7 @@ router.post('/addUser', Admin.ensureAuthenticated, function(req, res){
 		var newUser = new User({
 			username: username,
 			password: password,
-			customerName: 'Hyatt',
+			customerId: req.cookies.customerId,
 			role: role,
 			locations: locations	//status is set to true by default at the db level
 		});
@@ -67,7 +77,7 @@ router.post('/addUser', Admin.ensureAuthenticated, function(req, res){
 
 //Add user - Cancel
 router.post('/cancelUser', Admin.ensureAuthenticated, function(req, res){
-	res.render('manageUsers.handlebars');
+	res.render('manageUsers.handlebars', {customerName: req.cookies.customerName});
 });
 
 /** GET USERS **************************************************************************************************************************************/

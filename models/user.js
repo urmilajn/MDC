@@ -18,8 +18,8 @@ var UserSchema = mongoose.Schema({
 		type: String,
 		required: true
 	},
-	customerName: {				//lookup from customers
-		type: String,
+	customerId: {				//lookup from customers
+		type: mongoose.Schema.Types.ObjectId,
 		required: true
 	},
 	role: {						//static - employee | manager | regionalManager - validated by front end

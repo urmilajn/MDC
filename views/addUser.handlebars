@@ -13,7 +13,7 @@
         </form>
     </ul>
 </nav>
-<h4 class="text-muted">Hyatt</h4>
+<h4 class="text-muted">{{customerName}}</h4>
 </div>
 
 <form method="post" action="/customer/addUser">
@@ -41,9 +41,9 @@
 <div class="form-group required">
   <label class="control-label">Locations</label>
   <select class="form-control" name="locations" multiple="multiple">
-      <option value="locn1">Locn 1</option>
-      <option value="locn2">Locn 2</option>
-      <option value="locn3">Locn 3</option>      
+    {{#each locations}}
+        <option value="{{.}}">{{.}}</option>
+    {{/each}}    
   </select>
 </div>
 

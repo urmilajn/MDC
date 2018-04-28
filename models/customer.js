@@ -17,20 +17,21 @@ var CustomerSchema = mongoose.Schema({
 //Make model available to other files by exporting, also store in var Customer for local use
 var Customer = module.exports = mongoose.model('Customer', CustomerSchema);		//refers to "customers" collection in the database
 
-module.exports.createCustomer = function(newCustomer, dbResult){	//newCustomer coming in, result is placeholder function
+module.exports.createCustomer = function(newCustomer, result){	//newCustomer coming in, result is placeholder function
 	//Create newCustomer into Customers collection
-	newCustomer.save(dbResult);	//result = err + input customer returned
+	newCustomer.save(result);	//result = err + input customer returned
 }
 
-module.exports.getAllCustomers = function(dbResult){
-	Customer.find({}).exec(dbResult);
+module.exports.getAllCustomers = function(result){
+	Customer.find({}, result);			//select * from customers
+	//Customer.find({}).exec(result);	//alternate way
 }
 
-module.exports.getCustomerByName = function(customerName, callback){
+module.exports.getLocationsByCustomerId = function(id, result){
+	Customer.findById(id, 'locations', result);		//select id,locations from customers where id = ?	//id is by default
+}
+
+/*module.exports.getCustomerByName = function(customerName, callback){
 	var query = {customerName: customerName};
 	Customer.findOne(query, callback);
-}
-
-module.exports.test = function(dbResult){
-	Customer.find({}).exec(dbResult);
-}
+}*/

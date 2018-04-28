@@ -25,7 +25,7 @@ app.set('view engine', 'handlebars');
 
 //BodyParser Middleware
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.urlencoded({extended: false}));
 app.use(cookieParser());
 
 //Set Static Folder
@@ -88,8 +88,6 @@ app.use('/dashboard', dashboard);   //on GET /dashboard go to ./routes/dashboard
 app.use('/customer', customer);     //on GET /customer go to ./routes/customer.js
 app.use('/createNewForm', forms);
 app.use('/getFieldsOfNewForm', forms);
-const test = require('./routes/test.js');
-app.use('/test', test);
 
 //Set Port
 app.set('port', process.env.PORT || httpPort);

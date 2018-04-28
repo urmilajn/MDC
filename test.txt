@@ -1,7 +1,38 @@
-db.createCollection("test",{
-	validator: {$jsonSchema: {
-		bsonType: "object",
-		required: [""]
-	}
-	}
-})
+[ { locations: [ 'Natick', 'Wellesley' ],
+    _id: 5ae2505fda8e7e3098a85880,
+    customerName: 'Hyatt',
+    __v: 0 },
+  { locations: [ 'Newton', 'Boston' ],
+    _id: 5ae2506dda8e7e3098a85881,
+    customerName: 'Mariott',
+    __v: 0 },
+  { locations: [ 'Bangalore', 'Mysore' ],
+    _id: 5ae366c05e1b542784cf77b1,
+    customerName: 'Taj',
+    __v: 0 } ]
+
+
+
+    <table class="table table-bordered">
+        <thead>
+            <th>Name</th>
+        </thead> 
+        <tbody> 
+            {{#each customers}}
+            <tr>
+                <td><form method="post" action="/customer">
+                      <button type="submit" class="btn btn-link">{{customerName}}</button>
+                    </form>
+                </td>
+                <td><form method="post" action="/customer">
+                      <button type="submit" class="btn btn-link">{{locations}}</button>
+                    </form>
+                </td>
+                <td width="50"><form method="post" action="/dashboard/editCustomer">
+                                  <button type="submit" class="glyphicon glyphicon-pencil btn btn-link"/>
+                                </form>
+                </td>
+            </tr> 
+            {{/each}} 
+        </tbody> 
+    </table>

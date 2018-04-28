@@ -13,7 +13,7 @@
     </form>
   </ul>
 </nav>
-<h4 class="text-muted">Hyatt</h4>
+<h4 class="text-muted">{{customerName}}</h4>
 </div>
 
 <form method="get" action="/customer/addUser">
@@ -36,15 +36,21 @@
         <thead>
             <th>Username</th> 
             <th>Locations</th> 
-            <th>Status</th> 
+            <th>Status</th>
+            <th/>
         </thead> 
         <tbody> 
             {{#each users}} 
-            <tr> 
+            <tr>
                 <td>{{username}}</td>
                 <td>{{locations}}</td>
                 <td>{{status}}</td>
-            </tr> 
+                <td width="100"><form method="post" action="/customer/editUser">
+                      <button type="submit" class="glyphicon glyphicon-pencil btn btn-link"/>
+                      <button type="submit" class="glyphicon glyphicon-ban-circle btn btn-link" formaction="/customer/removeUser"/>
+                    </form>
+                </td>
+            </tr>
             {{/each}} 
         </tbody> 
     </table>
