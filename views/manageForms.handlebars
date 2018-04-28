@@ -16,17 +16,11 @@
 <h4>{{customerName}}</h4>
 </div>
 
-<html ng-app="ngDynamicForms"> 
-<script type='text/javascript'
-	src='http://cdnjs.cloudflare.com/ajax/libs/angular.js/1.2.1/angular.js'></script>
-<script type='text/javascript'
-	src='/js/ngDynamicForms.js'>
-</script>
-<body ng-controller="FormBuilderCtrl" style="padding-top:30px;" >
-<div id="customerName" ng-hidden="true" name={{customerName}}> </div>
-<div ng-dynamic-form >
 
-</div>
+<form method="get" action="/customer/addForm">
+  <button type="submit" class="btn btn-default">Add Forms</button>
+</form>
+<p></p>
 
-</body>
-</html>
+
+

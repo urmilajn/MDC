@@ -39,6 +39,21 @@ router.get('/addUser', Admin.ensureAuthenticated, function(req, res){
 	});
 });
 
+
+router.get('/addForm', Admin.ensureAuthenticated, function(req, res){
+	console.log("inside /addForm")
+	Customer.getLocationsByCustomerId(req.cookies.customerId, function(err, result) {
+		if (err) throw err;
+		else
+			res.render('addForm.handlebars', {customerName: req.cookies.customerName, locations: result.locations});
+	});
+});
+
+
+
+
+
+
 //Add User - Process & Reply
 router.post('/addUser', Admin.ensureAuthenticated, function(req, res){
 	
