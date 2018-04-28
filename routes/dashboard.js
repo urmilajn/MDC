@@ -52,7 +52,7 @@ router.post('/addCustomer', Admin.ensureAuthenticated, function(req, res){
 			if(err) throw err;		//db error
 		})
 
-		req.flash('success_msg', 'Customer created');
+		req.flash('success_msg', 'Customer created successfully');
 		res.redirect('/dashboard');		//refresh dashboard
 	}
 });	//Added new customer
@@ -61,6 +61,45 @@ router.post('/addCustomer', Admin.ensureAuthenticated, function(req, res){
 router.post('/cancelCustomer', Admin.ensureAuthenticated, function(req, res){
 	res.redirect('/dashboard');
 });
+
+/** EDIT CUSTOMER DETAILS ****************************************************************************************************************************/
+
+//Edit customer name and/or locations
+router.post('/editCustomer', Admin.ensureAuthenticated, function(req, res){
+	var customerId = req.body.customerId;		//Need not set other cookies, as we are about to change them
+	res.cookie('customerId', customerId);
+	res.render('editCustomer.handlebars', {customerName: req.body.customerName, locations: req.body.locations});
+});
+
+//Save the changes
+router.post('/updateCustomer', Admin.ensureAuthenticated, function(req, res){
+	
+	//Get updated customer name and locations
+	var customerId = req.cookies.customerId;
+	var customerName = req.body.customerName;
+	var locations = (req.body.locations).split(',').map(function(item){		//Ex: "Boston, Montreal" --> ["Boston","Montreal"]
+		return item.trim();
+	});
+
+	//Check if not empty
+	req.checkBody('customerName', 'Customer name is required').notEmpty();
+	req.checkBody('locations', 'Enter at least one location').notEmpty();
+	var errors = req.validationErrors();
+
+	if(errors)
+		res.render('editCustomer.handlebars', {errors: errors});
+
+	else {
+		Customer.updateCustomerById(customerId, customerName, locations, function(err, customer){
+			if(err) throw err;
+		})
+
+		req.flash('success_msg', 'Customer updated successfully');
+		res.redirect('/dashboard');		//refresh dashboard
+	}
+});	//Updated customer
+
+//Cancel update is same as Cancel add
 
 /** CHANGE ADMIN PASSWORD *****************************************************************************************************************************/
 

@@ -22,6 +22,10 @@ module.exports.createCustomer = function(newCustomer, result){	//newCustomer com
 	newCustomer.save(result);	//result = err + input customer returned
 }
 
+module.exports.updateCustomerById = function(id, customerName, locations, result){
+	Customer.update({_id: id}, {$set: {customerName: customerName, locations: locations}}, result);
+}
+
 module.exports.getAllCustomers = function(result){
 	Customer.find({}, result);			//select * from customers
 	//Customer.find({}).exec(result);	//alternate way

@@ -38,6 +38,9 @@
                     </form>
                 </td>
                 <td width="50"><form method="post" action="/dashboard/editCustomer">
+                                  <input type="hidden" name="customerId" value="{{_id}}"/>
+                                  <input type="hidden" name="customerName" value="{{customerName}}"/>
+                                  <input type="hidden" name="locations" value="{{locations}}"/>
                                   <button type="submit" class="glyphicon glyphicon-pencil btn btn-link"/>
                                 </form>
                 </td>
