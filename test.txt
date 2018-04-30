@@ -1,38 +1,29 @@
-[ { locations: [ 'Natick', 'Wellesley' ],
-    _id: 5ae2505fda8e7e3098a85880,
-    customerName: 'Hyatt',
-    __v: 0 },
-  { locations: [ 'Newton', 'Boston' ],
-    _id: 5ae2506dda8e7e3098a85881,
-    customerName: 'Mariott',
-    __v: 0 },
-  { locations: [ 'Bangalore', 'Mysore' ],
-    _id: 5ae366c05e1b542784cf77b1,
-    customerName: 'Taj',
-    __v: 0 } ]
+else {      //if no validation errors, check if customer already exists, else create one
 
+        Customer.getCustomerByName(customerName, function(err, customer) {
 
+            var updateCustomer = {};
 
-    <table class="table table-bordered">
-        <thead>
-            <th>Name</th>
-        </thead> 
-        <tbody> 
-            {{#each customers}}
-            <tr>
-                <td><form method="post" action="/customer">
-                      <button type="submit" class="btn btn-link">{{customerName}}</button>
-                    </form>
-                </td>
-                <td><form method="post" action="/customer">
-                      <button type="submit" class="btn btn-link">{{locations}}</button>
-                    </form>
-                </td>
-                <td width="50"><form method="post" action="/dashboard/editCustomer">
-                                  <button type="submit" class="glyphicon glyphicon-pencil btn btn-link"/>
-                                </form>
-                </td>
-            </tr> 
-            {{/each}} 
-        </tbody> 
-    </table>
+            if(err) throw err;
+
+            else if(customer) {
+                if(customer._id!=customerId){   //if customer name is not same as previous, check if customer name is already taken
+                    errors = [{param: 'username', msg: 'Customer name is already taken', value: '' }];
+                    res.render('addCustomer.handlebars', {errors: errors});
+                }
+                else {
+                    updateCustomer.locations = locations;
+                    User.updateCustomerById(customerId, updateCustomer, function(err, result) {     //update to database
+                        if(err) throw err;
+                    });
+                }
+            }
+
+            else {
+                updateCustomer.customerName = customerName;
+                updateCustomer.locations = locations;
+                User.updateCustomerById(customerId, updateCustomer, function(err, result) {     //update to database
+                    if(err) throw err;
+                });
+            }
+        });

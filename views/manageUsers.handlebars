@@ -45,10 +45,11 @@
                 <td>{{username}}</td>
                 <td>{{locations}}</td>
                 <td>{{status}}</td>
-                <td width="100"><form method="post" action="/customer/editUser">
-                      <button type="submit" class="glyphicon glyphicon-pencil btn btn-link"/>
-                      <button type="submit" class="glyphicon glyphicon-ban-circle btn btn-link" formaction="/customer/removeUser"/>
-                    </form>
+                <td width="50"><form method="post" action="/user/editUser">
+                                  <input type="hidden" name="userId" value="{{_id}}"/>
+                                  <input type="hidden" name="username" value="{{username}}"/>
+                                  <button type="submit" class="glyphicon glyphicon-pencil btn btn-link"/>
+                                </form>
                 </td>
             </tr>
             {{/each}} 

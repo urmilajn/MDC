@@ -22,8 +22,8 @@ module.exports.createCustomer = function(newCustomer, result){	//newCustomer com
 	newCustomer.save(result);	//result = err + input customer returned
 }
 
-module.exports.updateCustomerById = function(id, customerName, locations, result){
-	Customer.update({_id: id}, {$set: {customerName: customerName, locations: locations}}, result);
+module.exports.updateCustomerById = function(id, newCustomer, result){
+	Customer.update({_id: id}, {$set: newCustomer}, result);
 }
 
 module.exports.getAllCustomers = function(result){
@@ -31,11 +31,11 @@ module.exports.getAllCustomers = function(result){
 	//Customer.find({}).exec(result);	//alternate way
 }
 
-module.exports.getLocationsByCustomerId = function(id, result){
-	Customer.findById(id, 'locations', result);		//select id,locations from customers where id = ?	//id is by default
+module.exports.getCustomerByName = function(customerName, result){
+	Customer.findOne({customerName: customerName}, result);			//select * from customers where customerName = ?
 }
 
-/*module.exports.getCustomerByName = function(customerName, callback){
-	var query = {customerName: customerName};
-	Customer.findOne(query, callback);
+
+/*module.exports.getLocationsByCustomerId = function(id, result){
+	Customer.findById(id, 'locations', result);		//select id,locations from customers where id = ?	//id is by default
 }*/

@@ -31,23 +31,55 @@ var UserSchema = mongoose.Schema({
 		required: true
 	},
 	status: {
-		type: Boolean,
-		default: true			//true = Active, false = Inactive
+		type: String,
+		default: "Active"			//Active or Inactive
 	}
 });
 
 var User = module.exports = mongoose.model('User', UserSchema);	//mongoose understands 'User' as 'users' collection within idm db
 
-module.exports.createUser = function(newUser, results){
+module.exports.createUser = function(newUser, result){
 	bcrypt.genSalt(10, function(err, salt) {
 	    bcrypt.hash(newUser.password, salt, function(err, hash) {
 	        newUser.password = hash;
-	        newUser.save(results);
+	        newUser.save(result);
 	    });	
 	});
 }
 
-module.exports.getUserByRole = function(role, results){
-	var query = {role: role};
-	User.find(query).exec(results);
+module.exports.getUserByUserId = function(id, result){
+	User.findById(id, result);		//select * from users where id = ?
 }
+
+module.exports.getUserByUsername = function(username, result){
+	User.findOne({username: username}, result);
+}
+
+module.exports.getUsersByRole = function(role, customerId, results){
+	User.find({role: role, customerId: customerId}, results);
+}
+
+module.exports.updateUserById = function(id, newUser, result){
+	if(newUser.password) {
+		bcrypt.genSalt(10, function(err, salt) {
+		    bcrypt.hash(newUser.password, salt, function(err, hash) {
+		        newUser.password = hash;
+		        User.update({_id: id}, {$set: newUser}, result);
+		    });	
+		});
+	}	
+	else
+		User.update({_id: id}, {$set: newUser}, result);
+}
+
+/*module.exports.usernameTaken = function(username) {
+	var taken = true;
+	User.findOne({username: username}, function(err, result) {
+		if(result)
+			taken = true;
+		else
+			taken = false;
+		console.log('db func' + taken);
+	});
+	return taken;
+}*/
