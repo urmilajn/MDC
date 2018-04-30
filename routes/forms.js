@@ -4,12 +4,6 @@ const Form = require('../models/form');
 const path = require('path');
 
 
-router.get('/', function(req, res){
-   console.log("inside create new form page");
-   res.sendFile(path.join(__dirname, '../views','/createNewForm.html'));
-
-})
-
 //POST method to RECIEVE the list of new fields for a new client 
 router.post('/', function(req, res){
    console.log("inside getFielldsOfNewForm");

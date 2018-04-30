@@ -13,16 +13,60 @@
     </form>
   </ul>
 </nav>
-<h4 class="text-muted">Hyatt</h4>
+<h4>{{customerName}}</h4>
 </div>
 
-<html ng-app="ngDynamicForms"> 
-<script type='text/javascript'
-	src='http://cdnjs.cloudflare.com/ajax/libs/angular.js/1.2.1/angular.js'></script>
-<script type='text/javascript'
-	src='/js/ngDynamicForms.js'>
-</script>
-<body ng-controller="FormBuilderCtrl" style="padding-top:30px;" >
-<div ng-dynamic-form />
-</body>
-</html>
+
+<form method="get" action="/customer/addForm">
+  <button type="submit" class="btn btn-default">Add Forms</button>
+</form>
+<p></p>
+
+
+
+<form method="get" action="/form">
+  <div class="btn-group btn-group-justified">
+    <a href="/customer/getForms" class="btn btn-default">View All Forms</a>
+   </div>
+</form>
+
+
+<p></p>
+{{#if forms}}
+  <div>
+      <table class="table table-bordered">
+        <thead>
+            <th>FormName</th> 
+            <th colspan="2">Fields</th> 
+            <th/>
+        </thead> 
+        <tbody> 
+            {{#each forms}} 
+            <tr>
+              <td>{{formName}}</td>
+              <td>
+                  Field Name: 
+                  {{#each fields}}  
+                    <ul>
+                     <li>{{name}}</li>
+                    </ul>
+                  {{/each}} 
+              </td>
+              <td>
+                  Field Type: 
+                  {{#each fields}} 
+                  <ul>
+                    <li>{{type}}</li>
+                  </ul>
+                {{/each}} 
+              </td>
+                <td width="100">
+                      <button type="submit" class="glyphicon glyphicon-minus btn btn-link" formaction="/customer/removeForm"/>
+                    </form>
+                </td>
+            </tr>
+            {{/each}} 
+        </tbody> 
+    </table>
+</div>
+{{/if}}

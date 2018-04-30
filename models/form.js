@@ -1,9 +1,3 @@
-/*const config = require('../config/database');
-const mongo = require('mongodb');
-const mongoose = require('mongoose');
-mongoose.connect(config.database);
-const db = mongoose.connection;*/
-
 const mongoose = require('mongoose');
 
 var FormSchema = mongoose.Schema({
@@ -29,4 +23,10 @@ var Form = module.exports = mongoose.model('Form',FormSchema);
 module.exports.createNewForm = function(newForm , dbResult){
 	console.log("Calling Database");
 	newForm.save(dbResult);
+}
+
+module.exports.getAllFormsByCustomerName= function(customerName, result){
+	console.log("inside getAllFormsByCustomerName")	
+	Form.find({"client" : {$regex : customerName}},result);	//select id,formname from forms where client = ?	//id is by default
+	console.log(result)
 }
