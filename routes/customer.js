@@ -5,6 +5,7 @@ const Admin = require('../models/admin');
 const Customer = require('../models/customer');
 const User = require('../models/user');
 const Form = require('../models/form');
+
 /** FOR EACH CUSTOMER: CUSTOMER PAGE ****************************************************************************************************************/
 
 //View particular customer
@@ -154,9 +155,9 @@ router.get('/getForms', Admin.ensureAuthenticated, function(req, res){
 		if(err) throw err;
 		else{
 			res.render('manageForms.handlebars', {forms: results , customerName: req.cookies.customerName});
-				console.log(results)
+				//console.log(results)
 				console.log(results[0].fields)
-								//console.log(results.fields.toString())
+				//console.log(results.fields.toString())
 
 
 		}

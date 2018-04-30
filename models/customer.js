@@ -36,6 +36,6 @@ module.exports.getCustomerByName = function(customerName, result){
 }
 
 
-/*module.exports.getLocationsByCustomerId = function(id, result){
+module.exports.getLocationsByCustomerId = function(id, result){
 	Customer.findById(id, 'locations', result);		//select id,locations from customers where id = ?	//id is by default
-}*/
+}
