@@ -187,9 +187,11 @@ router.post('/cancelPassword', Admin.ensureAuthenticated, function(req, res){
 
 //Logout
 router.get('/logout', function(req, res){
-  req.logout();
-  req.flash('success_msg', 'You are logged out');
-  res.redirect('/login');
+	res.clearCookie('cstomerId');	res.clearCookie('customerName');	res.clearCookie('customerLocations');
+	res.clearCookie('userId');
+	req.logout();
+	req.flash('success_msg', 'You are logged out');
+	res.redirect('/login');
 });
 
 /****************************************************************************************************************************************************/
