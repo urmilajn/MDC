@@ -155,11 +155,7 @@ router.get('/getForms', Admin.ensureAuthenticated, function(req, res){
 		if(err) throw err;
 		else{
 			res.render('manageForms.handlebars', {forms: results , customerName: req.cookies.customerName});
-				//console.log(results)
-				console.log(results[0].fields)
-				//console.log(results.fields.toString())
-
-
+				
 		}
 	});
 });
