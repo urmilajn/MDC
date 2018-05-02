@@ -9,6 +9,7 @@
   "author": "Urmila JN",
   "license": "ISC",
   "dependencies": {
+    "angular-messages": "1.6.10",
     "bcryptjs": "*",
     "body-parser": "*",
     "connect-flash": "*",
@@ -19,6 +20,7 @@
     "express-session": "*",
     "express-validator": "*",
     "md5": "^2.2.1",
+    "min-angular": "^1.2.0",
     "mongodb": "*",
     "mongoose": "*",
     "passport": "*",

@@ -6,14 +6,13 @@
 					<h3 class="panel-title">Form Details</h3>
 				</div>
 				<div class="panel-body" style="height:250px;">
-				<form name="myformName_form" class="form" ng-submit="createForm()">
+				<form name="myformName_form" class="form">
 					<div class="form-group">
 						<label for="newFormName-name">Form Name:</label> 
-						<input type="text" name="newFormName" class="form-control" id="newFormName-name" ng-model="newFormName.name" ng-required placeholder ="Enter a valid Form Name">
-						<!-- <span ng-show="myformName_form.newFormName.$dirty && myformName_form.newFormName.$error.required && myformName_form.$submitted">Form Name is required</span> -->
-				<span class="help-block" ng-show="myformName_form.newFormName.$invalid">
-                            Form name is required.
-                        </span>
+						<input type="text" name="newFormName" class="form-control" id="newFormName-name" ng-model="newFormName.name" required placeholder ="Enter a valid Form Name">
+						<div ng-messages="myformName_form.newFormName.$error" ng-show="myformName_form.newFormName.$touched" style="color:red" >
+						<div ng-message="required">Form Name is mandatory.</div>
+					</div>
 					</div>
 					</div>
 				</form>
@@ -25,12 +24,15 @@
 					<h3 class="panel-title">Form Builder : {{newFormName.name}}</h3>
 				</div>
 				<div class="panel-body" style="height:250px;overflow:auto;">
-					<form name="myform" class="form" ng-submit="saveField()" ng-class="{'has-error':myform.newFieldName.$invalid && !mform.newFieldName.$ispristine}" >
+					<form name="myform" class="form" ng-submit="saveField()">
 						<div class="form-group">
 							<label for="newField-name">Field Name: </label> 
-							<input type="text" name="newFieldName" ng-minlength="3"
-								class="form-control" id="newField-name" ng-model="newField.name" ng-required placeholder ="Enter a valid Field Name">
-								  <p ng-show="myform.newFieldName.$invalid && !myform.newFieldName.$pristine" class="help-block">Enter a valid FieldName.</p>
+							<input type="text" name="newFieldName" 
+								class="form-control" id="newField-name" ng-model="newField.name" required placeholder ="Enter a valid Field Name">
+								<div ng-messages="myform.newFieldName.$error" ng-show="myform.newFieldName.$touched" style="color:red" >
+								<div ng-message="required">Field Name is mandatory.</div>
+								</div>
+
 
 						</div>
 						<div class="form-group">
@@ -69,7 +71,7 @@
 						<span ng-switch-when="checkbox"></span> <span
 							ng-switch-when="header"></span> </ng-switch>
 						<div>
-							<input class="btn btn-basic" type="submit"  value="Create New Field">
+							<input class="btn btn-basic" type="submit"  value="Create New Field" ng-disabled="!myform.newFieldName.$valid">
 						</div>
 					</form>
 				</div>
@@ -147,7 +149,7 @@
 	</div>
 	<div class="container" class="row">
 		<div class="col-md-12" class="panel-primary ">
-			<input class="btn btn-basic" type="submit" ng-disabled="!myformName_form.newFormName.$valid" ng-click=submitFieldsOfForm() value="Submit Form Fields">
+			<input class="btn btn-basic" type="submit" ng-disabled="!myformName_form.newFormName.$valid && !myform.newFieldName.$valid " ng-click=submitFieldsOfForm() value="Submit Form Fields">
 		</div>
 	</div>
 </div>

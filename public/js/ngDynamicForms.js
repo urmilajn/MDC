@@ -1,4 +1,4 @@
-var app = angular.module('ngDynamicForms',[]);
+var app = angular.module('ngDynamicForms',['ngMessages']);
 app.controller('FormBuilderCtrl',function FormBuilderCtrl($scope,  $http)
 {
 	$scope.newField = {};
