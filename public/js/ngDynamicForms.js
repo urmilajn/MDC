@@ -5,13 +5,6 @@ app.controller('FormBuilderCtrl',function FormBuilderCtrl($scope,  $http)
 	$scope.newFormName = {};
 	$scope.fields = [
 	];
-	$scope.createForm = function(){
-		console.log($scope.newFormName)
-		//$scope.newFormName = formName;
-
-	}
-	$scope.customerName={}
-	$scope.customerName1={}
 	$scope.editing = false;
 	$scope.tokenize = function(slug1, slug2) {
 		var result = slug1;
@@ -35,7 +28,6 @@ app.controller('FormBuilderCtrl',function FormBuilderCtrl($scope,  $http)
 		} 
 		else {
 			if($scope.newField.name==undefined || $scope.newField.name==""){
-				//alert("New Field Name cannot be empty")
 			}
 			else {
 				if($scope.newField.type==undefined || $scope.newField.type==""){
@@ -47,7 +39,6 @@ app.controller('FormBuilderCtrl',function FormBuilderCtrl($scope,  $http)
 		
 
 		$scope.newField = {
-			//order : 0
 		};
 	};
 	$scope.editField = function(field) {
@@ -64,16 +55,10 @@ app.controller('FormBuilderCtrl',function FormBuilderCtrl($scope,  $http)
 			$scope.newField.options = [];
 		}
 		$scope.newField.options.push({
-		//	order : 0
 		});
 	};
-	$scope.prettyPrint = function(feilds){
-		console.log("Inside Pretty Print JSON");
-
-	};
+	
 	$scope.typeSwitch = function(type) {
-		/*if (angular.Array.indexOf(['checkboxes','select','radio'], type) === -1)
-			return type;*/
 		if (type == 'checkboxes')
 			return 'multiple';
 		if (type == 'select')
@@ -85,10 +70,10 @@ app.controller('FormBuilderCtrl',function FormBuilderCtrl($scope,  $http)
 	}
 
 	$scope.submitFieldsOfForm = function(){
-
+			var fn =$scope.newFormName.name.replace(/\s+/g, '');
 		var allFields = {
 			
-			formName : $scope.newFormName.name,
+			formName : fn,
 			fields : $scope.fields,
 			client : document.getElementById("customerName").getAttribute('name')
 		};
@@ -100,13 +85,8 @@ app.controller('FormBuilderCtrl',function FormBuilderCtrl($scope,  $http)
 
 app.directive('ngDynamicForm', function () { 
     return { 
-        // We limit this directive to attributes only.
          restrict : 'A',
-
-        // We will not replace the original element code
         replace : false,
-        
-        // We must supply at least one element in the code 
         templateUrl : '/js/dynamicForms.html'
     } 
 });

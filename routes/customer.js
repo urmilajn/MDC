@@ -141,7 +141,6 @@ router.get('/getRegionalManagers', Admin.ensureAuthenticated, function(req, res)
 /****************************************************************************************************************************************************/
 /** ADD Form ****************************************************************************************************************************************/
 router.get('/addForm', Admin.ensureAuthenticated, function(req, res){
-	console.log("inside /addForm")
 	Customer.getLocationsByCustomerId(req.cookies.customerId, function(err, result) {
 		if (err) throw err;
 		else
