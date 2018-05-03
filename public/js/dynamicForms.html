@@ -40,6 +40,7 @@
 						<select	class="form-control" id="newField-type" ng-model="newField.type" ng-required>
 								<option value ="" disbaled selected hidden> Select a Field-Type</option>
 								<option value="text">Text</option>
+								<option value="subheading">SubHeading</option>
 								<option value="radio">Radio Buttons</option>
 								<option value="select">Drop Down Menu </option>
 								<option value="multiple">Multi-Select</option>
@@ -60,10 +61,9 @@
 									<button class="btn btn-basic btn-xs"
 										ng-click="splice(option, newField.options)">Remove</button>
 									<div class="form-group">	
- 										Name: <input class="form-control" type="text" ng-model="option.name"
-												ng-required>
-										Value: <input class="form-control" type="text"
-												ng-model="option.value">
+ 										Name: <input class="form-control" type="text" ng-model="option.name" ng-required>
+										<!-- Value: <input class="form-control" type="text"
+												ng-model="option.value"> -->
 									</div>
 								</div>
 							</div>
@@ -112,20 +112,19 @@
 									<select class="form-control "
 										ng-switch-when="select" ng-model="field.value">
 										<option ng-repeat="option in field.options"
-											value="{{option.value}}"
 											>{{option.name}}
 										</option>
 									</select> 
 									<select class="form-control " 
 										ng-switch-when="multiple" ng-model="field.value" multiple>
 										<option ng-repeat="option in field.options"
-											value="{{option.value}}">{{option.name}}
+											>{{option.name}}
 										</option>
 									</select>
 									<fieldset ng-switch-when="radio">
 										<label ng-repeat="option in field.options"> 
 											<input 
-												type="radio" ng-model="field.value" value="{{option.value}}">
+												type="radio" ng-model="field.value">
 											{{option.name}}
 										</label>
 									</fieldset>
@@ -133,11 +132,13 @@
 										<label ng-repeat="option in field.options"> 
 											<input 
 												type="checkbox" ng-model="field.value[tokenize(option.name)]"
-												value="{{option.value}}"> {{option.name}}
+												> {{option.name}}
 										</label>
 									</fieldset>
 									<fieldset ng-switch-when="submit">
 											<input class="btn btn-basic" type="submit" ng-click=" " value="Submit"> 
+									</fieldset>
+									<fieldset ng-switch-when="subheading">
 									</fieldset>
 								</ng-switch>
 							</div>
@@ -149,7 +150,8 @@
 	</div>
 	<div class="container" class="row">
 		<div class="col-md-12" class="panel-primary ">
-			<input class="btn btn-basic" type="submit" ng-disabled="!myformName_form.newFormName.$valid && !myform.newFieldName.$valid " ng-click=submitFieldsOfForm() value="Submit Form Fields">
+			<input class="btn btn-basic" type="submit" ng-disabled="!myform.newFieldName.$valid && 
+!myformName_form.newFormName.$valid"  ng-click=submitFieldsOfForm() value="Submit Form Fields">
 		</div>
 	</div>
 </div>

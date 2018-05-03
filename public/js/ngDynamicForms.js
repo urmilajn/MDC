@@ -1,5 +1,5 @@
 var app = angular.module('ngDynamicForms',['ngMessages']);
-app.controller('FormBuilderCtrl',function FormBuilderCtrl($scope,  $http)
+app.controller('FormBuilderCtrl',function FormBuilderCtrl($scope, $window, $http)
 {
 	$scope.newField = {};
 	$scope.newFormName = {};
@@ -17,10 +17,9 @@ app.controller('FormBuilderCtrl',function FormBuilderCtrl($scope,  $http)
 		return result;
 	};
 	$scope.saveField = function() {
-		console.log("entered save");
 		console.log($scope.newField)
 		if ($scope.newField.type == 'checkboxes') {
-			$scope.newField.value = {};
+			//$scope.newField.value = {};
 		}
 		if ($scope.editing !== false) {
 			$scope.fields[$scope.editing] = $scope.newField;
@@ -67,20 +66,31 @@ app.controller('FormBuilderCtrl',function FormBuilderCtrl($scope,  $http)
 			return 'multiple';
 
 		return type;
-	}
+	};
 
 	$scope.submitFieldsOfForm = function(){
-			var fn =$scope.newFormName.name.replace(/\s+/g, '');
+		var fn =$scope.newFormName.name.replace(/\s+/g, '');
 		var allFields = {
 			
 			formName : fn,
 			fields : $scope.fields,
 			client : document.getElementById("customerName").getAttribute('name')
 		};
-		console.log(allFields)
-		var result = $http.post('/getFieldsOfNewForm', allFields,{ headers: {'Content-Type': 'application/json'} })
+		
+		$http({
+			url: '/getFieldsOfNewForm',
+			method :"POST",
+			data :allFields,
+			headers :{'Content-Type': 'application/json'} 	
 
-	}
+		})
+		.success(function(response){
+		$window.location.href = '/customer/getForms'
+		});
+
+	
+	};
+
 });
 
 app.directive('ngDynamicForm', function () { 
