@@ -88,7 +88,7 @@ app.use('/login', login);           //even on GET /login it should behave as abo
 app.use('/dashboard', dashboard);   //on GET /dashboard go to ./routes/dashboard.js which will take you to views/dashboard.handlebars
 app.use('/customer', customer);     //on GET /customer go to ./routes/customer.js
 app.use('/user', user);
-//app.use('/createNewForm', forms);
+app.use('/createNewForm', forms);
 app.use('/getFieldsOfNewForm', forms);
 
 /*const test = require('./routes/test.js');   //delete after use

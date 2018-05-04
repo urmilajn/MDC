@@ -1,3 +1,5 @@
+
+<!-- Generation of Forms .Displays the formDetails, FormBuilder and the  FormPreview -->
 <div class="container">
 	<div class="row">
 		<div class="col-md-6">
@@ -9,13 +11,16 @@
 				<form name="myformName_form" class="form">
 					<div class="form-group">
 						<label for="newFormName-name">Form Name:</label> 
-						<input type="text" name="newFormName" class="form-control" id="newFormName-name" ng-model="newFormName.name" required placeholder ="Enter a valid Form Name">
+						<input   type="text" name="newFormName" class="form-control" id="newFormName-name" ng-model="newFormName.Name" required  placeholder ="Enter a valid Form Name" ng-blur="formNameCheck(newFormName)" ngDynamicForm>
 						<div ng-messages="myformName_form.newFormName.$error" ng-show="myformName_form.newFormName.$touched" style="color:red" >
-						<div ng-message="required">Form Name is mandatory.</div>
-					</div>
-					</div>
+							<div ng-message="required">Form Name is mandatory.</div>
+							<div ng-if = "formNameExistError">
+							 Form Name already exists. Please choose a different Name
+							</div>
+						</div>
 					</div>
 				</form>
+				</div>
 			</div>
 		</div>
 		<div class="col-md-6">
@@ -28,12 +33,10 @@
 						<div class="form-group">
 							<label for="newField-name">Field Name: </label> 
 							<input type="text" name="newFieldName" 
-								class="form-control" id="newField-name" ng-model="newField.name" required placeholder ="Enter a valid Field Name">
-								<div ng-messages="myform.newFieldName.$error" ng-show="myform.newFieldName.$touched" style="color:red" >
+								class="form-control" id="newField-name" ng-model="newField.name" required ng-minlength="1" placeholder ="Enter a valid Field Name">
+								<div ng-messages="myform.newFieldName.$error" ng-show="myform.newFieldName.$touched && myform.newFieldName.$valid" style="color:red" >
 								<div ng-message="required">Field Name is mandatory.</div>
 								</div>
-
-
 						</div>
 						<div class="form-group">
 							<label for="newField-type">Field Type:</label> 
@@ -49,27 +52,25 @@
 								<option value="submit">Submit</option>
 							</select>
 						</div>
+						<!-- panel for Add option only for the formcontrol under typeSwitch -->
 						<ng-switch on="typeSwitch(newField.type)">
 						<fieldset ng-switch-when="multiple">
 							<legend>
 								<a class="btn btn-default btn-xs" ng-click="addOption()">Add Option</a>
 							</legend>
 							<div class="panel panel-default"
-								ng-repeat="option in newField.options|orderBy:'order'">
+								ng-repeat="option in newField.options">
 								<div class="panel-body">
 									<b><i>Option:</i></b>
 									<button class="btn btn-basic btn-xs"
 										ng-click="splice(option, newField.options)">Remove</button>
 									<div class="form-group">	
  										Name: <input class="form-control" type="text" ng-model="option.name" ng-required>
-										<!-- Value: <input class="form-control" type="text"
-												ng-model="option.value"> -->
 									</div>
 								</div>
 							</div>
 						</fieldset>
-						<span ng-switch-when="checkbox"></span> <span
-							ng-switch-when="header"></span> </ng-switch>
+						</ng-switch>
 						<div>
 							<input class="btn btn-basic" type="submit"  value="Create New Field" ng-disabled="!myform.newFieldName.$valid">
 						</div>
@@ -78,80 +79,74 @@
 			</div>
 		</div>
 	
-		<div class ="col-md-12" ng-mouseover="$log(fields.length)" ng-hide="fields.length<1">
+		<div class ="col-md-12">
 			<div class="panel panel-default" >
 				<div class="panel-heading">
-					<h3 class="panel-title">Form Preview</h3>
+					<h3 class="panel-title">Form Preview : {{newFormName.name}}</h3>
 				</div>
 				<div  class="panel-body" style="height:400px;overflow:auto;">
-					<div ng-repeat="field in fields | orderBy:'order'">
+					<div ng-repeat="field in fields">
 						<ng-switch on="field.type">
-						<h3 ng-switch-when="header" >
+							<h3 ng-switch-when="subheading" >
+							 <span style='font-weight: bold;'>{{field.name}}</span>
 							<button class="btn btn-basic btn-xs" ng-click="editField(field)">Edit</button>
-							<button class="btn btn-basic btn-xs" ng-click="splice(field, fields)">Delete</button>
+							<button class="btn btn-basic btn-xs" ng-click="splice(field, fields)">Remove</button>
 						</h3>
-						<div ng-switch-default class="input {{field.type}}"
+						<h4 ng-switch-when="submit" >
+							<input class="btn btn-basic" type="submit" ng-click=" " value="{{field.name}}">
+							<button class="btn btn-basic btn-xs" ng-click="editField(field)">Edit</button>
+							<button class="btn btn-basic btn-xs" ng-click="splice(field, fields)">Remove</button>
+						</h4>
+						 <div ng-switch-default class="input {{field.type}}"
 							ng-class="field.required && 'required'">
 							<div class="form-group">
-								<label>
-									{{field.name}} 
+								<h5>
+									<span style='font-weight: bold;'>{{field.name}}</span> 
 									<button class="btn btn-basic btn-xs" ng-click="editField(field)">Edit</button>
 									<button class="btn btn-basic btn-xs" ng-click="splice(field, fields)">Remove</button>	
-								</label>
+								</h5>
 							
 								<ng-switch on="field.type"> 
 									<input class="form-control" ng-switch-default
-										type="{{field.type}}" ng-model="field.value"
-										ng-bind-attr="{required:'{{field.required}}'}"
-										value="{{field.value}}" >
-									<input ng-switch-when="checkbox" type="checkbox"
-										ng-model="field.value" value="{{field.value}}" id="field">
+										type="{{field.type}}">
 									<textarea class="form-control"
-										ng-switch-when="textarea" ng-model="field.value">{{field.value}}
+										ng-switch-when="textarea">
 									</textarea> 
 									<select class="form-control "
-										ng-switch-when="select" ng-model="field.value">
+										ng-switch-when="select">
 										<option ng-repeat="option in field.options"
 											>{{option.name}}
 										</option>
 									</select> 
 									<select class="form-control " 
-										ng-switch-when="multiple" ng-model="field.value" multiple>
-										<option ng-repeat="option in field.options"
-											>{{option.name}}
+										ng-switch-when="multiple"  multiple>
+										<option ng-repeat="option in field.options">{{option.name}}
 										</option>
 									</select>
 									<fieldset ng-switch-when="radio">
 										<label ng-repeat="option in field.options"> 
-											<input 
-												type="radio" ng-model="field.value">
+											<input type="radio">
 											{{option.name}}
 										</label>
 									</fieldset>
 									<fieldset ng-switch-when="checkboxes">
 										<label ng-repeat="option in field.options"> 
-											<input 
-												type="checkbox" ng-model="field.value[tokenize(option.name)]"
-												> {{option.name}}
+											<input type="checkbox"> {{option.name}}
 										</label>
-									</fieldset>
-									<fieldset ng-switch-when="submit">
-											<input class="btn btn-basic" type="submit" ng-click=" " value="Submit"> 
-									</fieldset>
-									<fieldset ng-switch-when="subheading">
 									</fieldset>
 								</ng-switch>
 							</div>
-						</div>
+						  </div>
 						</ng-switch>
 					</div>
 				</div>
 			</div> 
 	</div>
+
+	<!-- Submit button submits based on the formname and creation of fields -->
 	<div class="container" class="row">
 		<div class="col-md-12" class="panel-primary ">
-			<input class="btn btn-basic" type="submit" ng-disabled="!myform.newFieldName.$valid && 
-!myformName_form.newFormName.$valid"  ng-click=submitFieldsOfForm() value="Submit Form Fields">
+		<input class="btn btn-basic" type="submit" ng-disabled="(!myform.newFieldName.$valid && !myformName_form.newFormName.$valid)  || (formNameExistError)"  ng-click=submitFieldsOfForm() value="Submit Form Fields">
 		</div>
 	</div>
 </div>

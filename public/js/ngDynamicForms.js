@@ -6,40 +6,50 @@ app.controller('FormBuilderCtrl',function FormBuilderCtrl($scope, $window, $http
 	$scope.fields = [
 	];
 	$scope.editing = false;
-	$scope.tokenize = function(slug1, slug2) {
-		var result = slug1;
-		result = result.replace(/[^-a-zA-Z0-9,&\s]+/ig, '');
-		result = result.replace(/-/gi, "_");
-		result = result.replace(/\s/gi, "-");
-		if (slug2) {
-			result += '-' + $scope.token(slug2);
+	$scope.formNameExistError = false;
+	
+	$scope.formNameCheck = function(myformName_form){
+		var formNameCheckData = {
+			formName  : $scope.newFormName.Name,
+			clientName: document.getElementById("customerName").getAttribute('name')
 		}
-		return result;
-	};
+		
+		$http({
+			url: '/createNewForm/checkFormName',
+			method :"POST",
+			data :formNameCheckData,
+			headers :{'Content-Type': 'application/json'} 	
+
+		})
+		.then(function(response){
+		//response always returns a -1 if doesnt exist
+			if(response.data.formNameExist == -1)
+				$scope.formNameExistError = false;
+			else
+				$scope.formNameExistError =  true;
+
+		});
+
+	}
 	$scope.saveField = function() {
-		console.log($scope.newField)
-		if ($scope.newField.type == 'checkboxes') {
-			//$scope.newField.value = {};
-		}
+		//On edit , will not add a new field 
 		if ($scope.editing !== false) {
 			$scope.fields[$scope.editing] = $scope.newField;
 			$scope.editing = false;
-		} 
-		else {
-			if($scope.newField.name==undefined || $scope.newField.name==""){
-			}
-			else {
-				if($scope.newField.type==undefined || $scope.newField.type==""){
+		} else{
+			//on non selection of fieldtype-creates a textfield by default
+			if($scope.newField.type==undefined || $scope.newField.type==""){
 				$scope.newField.type='text'
-				}
-				$scope.fields.push($scope.newField);
-				}
 			}
-		
+				//creates the field 
+				$scope.fields.push($scope.newField);
 
-		$scope.newField = {
+			}
+				//creation of new field on saving the previous field info
+				$scope.newField = {
 		};
 	};
+
 	$scope.editField = function(field) {
 		$scope.editing = $scope.fields.indexOf(field);
 		$scope.newField = field;
@@ -49,6 +59,8 @@ app.controller('FormBuilderCtrl',function FormBuilderCtrl($scope, $window, $http
 	$scope.splice = function(field, fields) {
 		fields.splice(fields.indexOf(field), 1);
 	};
+
+
 	$scope.addOption = function() {
 		if ($scope.newField.options === undefined) {
 			$scope.newField.options = [];
@@ -69,14 +81,13 @@ app.controller('FormBuilderCtrl',function FormBuilderCtrl($scope, $window, $http
 	};
 
 	$scope.submitFieldsOfForm = function(){
-		var fn =$scope.newFormName.name.replace(/\s+/g, '');
+		var fn =$scope.newFormName.Name;
 		var allFields = {
-			
 			formName : fn,
 			fields : $scope.fields,
 			client : document.getElementById("customerName").getAttribute('name')
 		};
-		
+		console.log(allFields)
 		$http({
 			url: '/getFieldsOfNewForm',
 			method :"POST",
@@ -84,19 +95,17 @@ app.controller('FormBuilderCtrl',function FormBuilderCtrl($scope, $window, $http
 			headers :{'Content-Type': 'application/json'} 	
 
 		})
-		.success(function(response){
+		.then(function(response){
 		$window.location.href = '/customer/getForms'
 		});
-
-	
 	};
 
-});
+ });
+ 
 
 app.directive('ngDynamicForm', function () { 
     return { 
          restrict : 'A',
-        replace : false,
-        templateUrl : '/js/dynamicForms.html'
+        templateUrl : '/js/dynamicForms.html',
     } 
 });
