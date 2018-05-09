@@ -39,13 +39,6 @@ router.get('/addUser', Admin.ensureAuthenticated, function(req, res){
 
 	res.render('addUser.handlebars', {customerName: req.cookies.customerName, locations: req.cookies.customerLocations});
 
-	/*Customer.getLocationsByCustomerId(req.cookies.customerId, function(err, result) {
-		if (err) throw err;
-		else {
-			console.log(result.locations);
-			res.render('addUser.handlebars', {customerName: req.cookies.customerName, locations: result.locations});
-		}
-	});*/
 });
 
 
@@ -90,7 +83,7 @@ router.post('/addUser', Admin.ensureAuthenticated, function(req, res){
 						password: password,
 						customerId: customerId,
 						role: role,
-						locations: locations	//status is set to true by default at the db level
+						locations: locations	//status is set to Active by default at the db level
 					});
 
 				User.createUser(newUser, function(err,result){
@@ -138,8 +131,8 @@ router.get('/getRegionalManagers', Admin.ensureAuthenticated, function(req, res)
 	});
 });
 
-/****************************************************************************************************************************************************/
-/** ADD Form ****************************************************************************************************************************************/
+/** ADD FORM ****************************************************************************************************************************************/
+
 router.get('/addForm', Admin.ensureAuthenticated, function(req, res){
 	console.log("inside /addForm")
 	Customer.getLocationsByCustomerId(req.cookies.customerId, function(err, result) {
@@ -155,14 +148,10 @@ router.get('/getForms', Admin.ensureAuthenticated, function(req, res){
 		if(err) throw err;
 		else{
 			res.render('manageForms.handlebars', {forms: results , customerName: req.cookies.customerName});
-				//console.log(results)
-				console.log(results[0].fields)
-				//console.log(results.fields.toString())
-
-
-		}
+			}
 	});
 });
 
+/****************************************************************************************************************************************************/
 
 module.exports = router;

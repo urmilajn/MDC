@@ -19,8 +19,8 @@ var AdminUserSchema = mongoose.Schema({
 		required: true
 	},
 	status: {
-		type: Boolean,
-		default: true
+		type: String,
+		default: 'Active'
 	}
 });
 
