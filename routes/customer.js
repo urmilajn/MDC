@@ -36,16 +36,7 @@ router.get('/manageUsers', Admin.ensureAuthenticated, function(req, res){
 
 //Add User - Get
 router.get('/addUser', Admin.ensureAuthenticated, function(req, res){
-
 	res.render('addUser.handlebars', {customerName: req.cookies.customerName, locations: req.cookies.customerLocations});
-
-	/*Customer.getLocationsByCustomerId(req.cookies.customerId, function(err, result) {
-		if (err) throw err;
-		else {
-			console.log(result.locations);
-			res.render('addUser.handlebars', {customerName: req.cookies.customerName, locations: result.locations});
-		}
-	});*/
 });
 
 
@@ -138,8 +129,7 @@ router.get('/getRegionalManagers', Admin.ensureAuthenticated, function(req, res)
 	});
 });
 
-/****************************************************************************************************************************************************/
-/** ADD Form ****************************************************************************************************************************************/
+/** ADD FORM ****************************************************************************************************************************************/
 router.get('/addForm', Admin.ensureAuthenticated, function(req, res){
 	Customer.getLocationsByCustomerId(req.cookies.customerId, function(err, result) {
 		if (err) throw err;
@@ -159,5 +149,6 @@ router.get('/getForms', Admin.ensureAuthenticated, function(req, res){
 	});
 });
 
+/****************************************************************************************************************************************************/
 
 module.exports = router;
