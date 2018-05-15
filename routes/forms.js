@@ -17,8 +17,14 @@ router.post('/',Admin.ensureAuthenticated, function(req, res){
       customerId:req.cookies.customerId
           });
       Form.createNewForm(newForm,function(err,form){
-       res.redirect('/customer/getForms');
+       var formId = form._id
+      var tableName =  formName + "_"+ formId;
+      Form.createFormTable(tableName,function(err,form){
+         if(err) throw err;
+      })
+             res.redirect('/customer/getForms');
        })
+
     });
 
 router.post('/checkFormName',Admin.ensureAuthenticated, function(req, res){
