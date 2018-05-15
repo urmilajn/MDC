@@ -10,9 +10,13 @@ var FormSchema = mongoose.Schema({
 	fields : {
 		type:[] 
 	},
-	client : {
+	customer : {
 		type:String ,
 		required:true
+	},
+	customerId : {
+		type: mongoose.Schema.Types.ObjectId,
+		required: true
 	}
 });
 
@@ -25,10 +29,10 @@ module.exports.createNewForm = function(newForm , dbResult){
 }
 
 module.exports.getAllFormsByCustomerName= function(customerName, result){
-	Form.find({client: customerName},result);	//select customerName,formname from forms where client = ?	//id is by default
+	Form.find({customer: customerName},result);	//select customerName,formname from forms where client = ?	//id is by default
 }
 
 module.exports.getFormByName = function(formName,customerName, result){
-	Form.findOne({formName: formName,client: customerName}, result);		
+	Form.findOne({formName: formName,customer: customerName}, result);		
 		//select * from customers where customerName = ?
 }

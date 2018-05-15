@@ -8,11 +8,13 @@ const path = require('path');
 //POST method to RECIEVE the list of new fields for a new client 
 router.post('/',Admin.ensureAuthenticated, function(req, res){
   var formName = req.body.formName;
-  var customerName = req.body.client;
+  var customerName = req.body.customer;
+  var customerId = req.cookies.customerId;
       var newForm = new Form({
       formName: req.body.formName,
       fields: req.body.fields,
-      client: req.body.client
+      customer: req.body.customer,
+      customerId:req.cookies.customerId
           });
       Form.createNewForm(newForm,function(err,form){
        res.redirect('/customer/getForms');

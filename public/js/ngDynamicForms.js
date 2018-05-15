@@ -85,8 +85,10 @@ app.controller('FormBuilderCtrl',function FormBuilderCtrl($scope, $window, $http
 		var allFields = {
 			formName : fn,
 			fields : $scope.fields,
-			client : document.getElementById("customerName").getAttribute('name')
+			//client : document.getElementById("customerName").getAttribute('name')
+			customer : document.getElementById("customerName").getAttribute('name')
 		};
+		
 		console.log(allFields)
 		$http({
 			url: '/getFieldsOfNewForm',
