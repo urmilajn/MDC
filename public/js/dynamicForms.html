@@ -49,7 +49,6 @@
 								<option value="multiple">Multi-Select</option>
 								<option value="checkboxes">Checkboxes</option>
 								<option value="textarea">Paragraph</option>
-								<option value="submit">Submit</option>
 							</select>
 						</div>
 						<!-- panel for Add option only for the formcontrol under typeSwitch -->
@@ -92,11 +91,6 @@
 							<button class="btn btn-basic btn-xs" ng-click="editField(field)">Edit</button>
 							<button class="btn btn-basic btn-xs" ng-click="splice(field, fields)">Remove</button>
 						</h3>
-						<h4 ng-switch-when="submit" >
-							<input class="btn btn-basic" type="submit" ng-click=" " value="{{field.name}}">
-							<button class="btn btn-basic btn-xs" ng-click="editField(field)">Edit</button>
-							<button class="btn btn-basic btn-xs" ng-click="splice(field, fields)">Remove</button>
-						</h4>
 						 <div ng-switch-default class="input {{field.type}}"
 							ng-class="field.required && 'required'">
 							<div class="form-group">
